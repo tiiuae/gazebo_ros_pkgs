@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+mesh_distancecmake_minimum_required(VERSION 3.5)
 project(gazebo_plugins)
 
 # Default to C++14
@@ -411,6 +411,26 @@ if(ENABLE_PROFILER)
   target_link_libraries(gazebo_ros_joint_pose_trajectory ${ignition-common3_LIBRARIES})
 endif()
 
+############################################
+# gazebo_ros_mesh_distance
+add_library(gazebo_ros_mesh_distance SHARED
+  src/gazebo_ros_mesh_distance.cpp
+)
+target_include_directories(gazebo_ros_mesh_distance PUBLIC include)
+ament_target_dependencies(gazebo_ros_mesh_distance
+  "gazebo_dev"
+  "gazebo_ros"
+  "std_msgs"
+  "rclcpp"
+)
+ament_export_libraries(gazebo_ros_mesh_distance)
+if(ENABLE_PROFILER)
+  target_include_directories(gazebo_ros_mesh_distance PUBLIC ${ignition-common3_INCLUDE_DIRS})
+  target_link_libraries(gazebo_ros_mesh_distance ${ignition-common3_LIBRARIES})
+endif()
+#
+############################################
+
 # gazebo_ros_planar_move
 add_library(gazebo_ros_planar_move SHARED
   src/gazebo_ros_planar_move.cpp
@@ -510,6 +530,7 @@ install(TARGETS
     gazebo_ros_gps_sensor
     gazebo_ros_joint_pose_trajectory
     gazebo_ros_joint_state_publisher
+    gazebo_ros_mesh_distance
     gazebo_ros_planar_move
     gazebo_ros_projector
     gazebo_ros_ray_sensor
